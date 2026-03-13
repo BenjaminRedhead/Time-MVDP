@@ -1,6 +1,6 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT license.
-
+# Created for internship coding assessment
 """
 Copula Adapter for Multivariate TimeDP.
 

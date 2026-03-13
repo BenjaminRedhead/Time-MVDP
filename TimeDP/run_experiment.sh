@@ -12,10 +12,10 @@ set -e
 # =====================================================================
 
 export WANDB_MODE=disabled
-export DATA_ROOT="/workspace/TimeCraft/TimeDP/data/training/TimeDP-Data"
+export DATA_ROOT="DATA ROOT"
 
 DATASET="weather"
-DATASET_CSV="/workspace/TimeCraft/TimeDP/data/${DATASET}/${DATASET}.csv"
+DATASET_CSV="DATASET PATH/${DATASET}/${DATASET}.csv"
 SAVE_DIR="/workspace/writeable/TimeCraft/TimeDP"
 SEQ_LEN=96
 NUM_LATENTS=16

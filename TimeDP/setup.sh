@@ -1,4 +1,5 @@
 #!/bin/bash
+# Created for internship coding assessment to set up base environment
 set -e
 
 # ---- Install Miniconda ----

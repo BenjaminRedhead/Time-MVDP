@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# Created for internship coding assessment requires additional packages not in setup.sh
 """
 Evaluate generated multivariate time series using Signature Kernel MMD.
 
