@@ -1,0 +1,12 @@
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+*.csv
+*.npy
+*.zip
+*.tar.gz
+logs/

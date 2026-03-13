@@ -1,0 +1,65 @@
+# Dataset configuration
+dataset:
+  name: harmonic_vm
+  description: Synthetic Harmonic Oscillator with Variable Mass Dataset
+  source:
+    type: synthetic
+
+# Alpha-based split configuration (causal parameter: mass variation rate)
+alpha_based:
+  c_var: ['Velocity', 'Position']  # Conditioning variables
+  
+  # Mixed sampling ratios: main_ratio% from own range, remaining% distributed across other ranges
+  sampling_ratios:
+    main: 0.8    # 80% from main range
+    cross: 0.2   # 20% from other ranges (split equally: 10% each from val and test)
+    
+  splits:
+    train:
+      n_samples: 3000
+      alpha: [0.0, 0.2]  # Mass increases slowly: m = m0 + alpha * t
+      description: "Slow mass increase - stable dynamics"
+    val:
+      n_samples: 1000
+      alpha: [0.3, 0.5]  # Moderate mass increase
+      description: "Moderate mass increase - transitional dynamics"
+    test:
+      n_samples: 1000
+      alpha: [0.6, 1]  # Fast mass increase
+      description: "Fast mass increase - challenging dynamics"
+
+# Physics parameters for data generation
+physics_params:
+  m0: 0.5       # Initial mass
+  gamma: 0.1    # Damping coefficient  
+  k: 1       # Spring constant
+  T: 30.0       # Total simulation time
+  steps: 96     # Number of time steps
+  
+  # Initial condition ranges for original data
+  x0_range: [-2.0, 2.0]    # Initial position range (expanded for diversity)
+  v0_range: [-1.5, 1.5]    # Initial velocity range (expanded for diversity)
+  
+  # Initial condition ranges for counterfactual data (different from original)
+  x0_cf_range: [2.2, 4.0]     # CF initial position range (non-overlapping)
+  v0_cf_range: [-2.5, -1.0]   # CF initial velocity range (non-overlapping)
+
+# Variables configuration
+variables:
+  x_var: 'Acceleration'  # Target variable
+
+# No categorical features for synthetic data
+feature_embeddings: {}
+
+# Preprocessing configuration
+preprocessing:
+  interval: 1
+  seq_len: 96
+  handle_missing: false
+  normalize_target: true
+  normalize_conditions: true
+
+# Output configuration
+output:
+  base_dir: ./dataset
+  dataset_dir: harmonic_vm

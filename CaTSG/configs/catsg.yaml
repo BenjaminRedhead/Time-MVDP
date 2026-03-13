@@ -1,0 +1,185 @@
+# Causal Time Series Generation Configuration
+
+# Global parameters
+batch_size: 512
+seq_len: 96
+hid_dim: 64
+num_envs: 4
+
+# Training configuration
+lightning:
+  callbacks:
+    early_stopping:
+      target: pytorch_lightning.callbacks.EarlyStopping
+      params:
+        monitor: val/loss
+        patience: 999999
+        min_delta: 0.001
+        mode: min
+        verbose: true
+    env_stats_logger_train:
+      target: utils.callback_utils.EnvStatsLogger
+      params:
+        split: train
+    env_stats_logger_val:
+      target: utils.callback_utils.EnvStatsLogger
+      params:
+        split: val
+    env_stats_logger_test:
+      target: utils.callback_utils.EnvStatsLogger
+      params:
+        split: test
+    image_logger:
+      target: utils.callback_utils.TSLogger
+      params:
+        batch_frequency: 100
+        max_images: 4
+        increase_log_steps: false
+  trainer:
+    enable_checkpointing: true
+    gpus: 1
+    max_steps: 1000
+    val_check_interval: 2
+    log_every_n_steps: 10
+    limit_val_batches: 2  # Limited validation during training for speed
+    gradient_clip_val: 1.0  # Clip gradients to prevent instability
+
+# Logging
+logger:
+  - target: pytorch_lightning.loggers.TensorBoardLogger
+    params:
+      save_dir: ./logs
+
+# Model configuration
+model:
+  target: ldm.models.diffusion.causal_tsg.CaTSGDiffusion
+  base_learning_rate: 0.001
+  params:
+    task_type: int  # Default task type for causal TSG (supports both int and cf)
+    seq_len: ${seq_len}
+    channels: 1
+    conditioning_key: crossattn
+    # cond_channels: auto-detected from dataset config
+    cond_stage_key: c
+    first_stage_key: x
+    # Pass dataset-specific embedding configuration
+    dataset_name: ${dataset}
+    split_method: ${split_method}
+    # feature_embeddings will be loaded from configs/dataset_config/{dataset}.yaml
+    cond_drop_prob: 0.2
+    # loss balance
+    swapped_loss_weight: 0.5
+    orthogonal_loss_weight: 0.5  # orthogonal regularization for env_bank embeddings (when train_env=true)
+    # Training phase configuration
+    warmup_steps: 10  # Controls warmup duration
+    
+    # Loss combination for each training phase
+    warmup_losses: ['swapped','orth'] # Warmup phase
+    normal_losses: ['swapped','mse', 'orth']  # Normal phase
+
+    
+    # Diffusion parameters
+    timesteps: 200
+    beta_schedule: cosine
+    parameterization: eps
+    loss_type: l2
+    l_simple_weight: 1.0
+    original_elbo_weight: 0.0
+    learn_logvar: false
+    logvar_init: 0.0
+    log_every_t: 100
+    clip_denoised: true
+    use_ema: true
+    use_positional_encodings: false
+    monitor: val/loss
+    scheduler_config: null
+    
+    # DPM-Solver parameters (default fast sampler)
+    use_dpm_solver: true
+    dpm_solver_steps: 20
+    dpm_solver_order: 2
+    dpm_solver_method: singlestep
+    
+    # Environment configuration (auto-configured by init_utils.py)
+    env_config:
+      target: ldm.modules.encoders.env.EnvManager
+      params:
+        env_dim: ${hid_dim}
+        num_envs: ${num_envs}  
+        hid_dim: ${hid_dim}
+        seq_len: ${seq_len}
+        train_env: true  # Set to true to make env_bank learnable
+        initial_temp: 2.0  # Starting temperature for exploration
+        final_temp: 0.5    # Final temperature for exploitation
+    
+    # UNet configuration
+    unet_config:
+      target: ldm.modules.diffusionmodules.ba_unet.BAUNetModel
+      params:
+        seq_len: ${seq_len}
+        in_channels: 1
+        out_channels: 1
+        model_channels: 64
+        attention_resolutions: [1, 2, 4]
+        channel_mult: [1, 2, 4, 4]
+        num_res_blocks: 2
+        dropout: 0.1
+        dims: 1
+        num_heads: 4
+        transformer_depth: 1
+        context_dim: 64
+        hid_dim: ${hid_dim}
+        latent_unit: 1
+        repre_emb_channels: 64
+        use_cfg: true
+        use_pam: true
+        use_checkpoint: false
+        use_scale_shift_norm: true
+        use_spatial_transformer: true
+
+# Data configuration
+data_common: &data_common
+  target: ldm.data.catsg_dataset.CaTSGDataset
+  params:
+    batch_size: ${batch_size}
+    window: ${seq_len}
+
+train_data:
+  <<: *data_common
+  params:
+    batch_size: ${batch_size}
+    window: ${seq_len}
+    x_path: ./dataset/${dataset}/${split_method}/x_train.npy
+    c_path: ./dataset/${dataset}/${split_method}/c_train.npy
+
+val_data:
+  <<: *data_common
+  params:
+    batch_size: ${batch_size}
+    window: ${seq_len}
+    x_path: ./dataset/${dataset}/${split_method}/x_val.npy
+    c_path: ./dataset/${dataset}/${split_method}/c_val.npy
+
+test_data:
+  <<: *data_common
+  params:
+    batch_size: ${batch_size}
+    window: ${seq_len}
+    x_path: ./dataset/${dataset}/${split_method}/x_test.npy
+    c_path: ./dataset/${dataset}/${split_method}/c_test.npy
+
+# Sampling configuration
+sampling:
+  # Option 1: Use num_repeat (legacy)
+  num_repeat: 5
+  
+  # Option 2: Use explicit seeds for more randomness (overrides num_repeat if provided)
+  seeds: [42, 123, 456, 789, 999]  # Each seed will generate one sample set with different randomness
+  
+generation_config:
+  int_generation:
+    ddim: false  # Use DPM-solver (default)
+    dpm_solver_steps: 20 
+  cf_generation:
+    ddim: false  # Use DPM-solver (default)
+    dpm_solver_steps: 20 

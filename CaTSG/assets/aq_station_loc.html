@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_a02bd968ebfb9c9c7943f78406110481 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+<div style="position: fixed; 
+     bottom: 50px; left: 50px; width: 150px; height: 130px; 
+     background-color: white; border:2px solid grey; z-index:9999; 
+     font-size:14px; padding: 10px">
+<p><b>Dataset Split</b></p>
+<p><i class="fa fa-circle" style="color:#4C72B0"></i> Train </p>
+<p><i class="fa fa-circle" style="color:#FF7F50"></i> Val</p>
+<p><i class="fa fa-circle" style="color:#55A5A5"></i> Test</p>
+</div>
+    
+            <div class="folium-map" id="map_a02bd968ebfb9c9c7943f78406110481" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_a02bd968ebfb9c9c7943f78406110481 = L.map(
+                "map_a02bd968ebfb9c9c7943f78406110481",
+                {
+                    center: [39.9042, 116.4074],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 9,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_8b4164db7d5b36ca449887eb154fa953 = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e", "detectRetina": false, "maxNativeZoom": 20, "maxZoom": 20, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abcd", "tms": false}
+            );
+        
+    
+            tile_layer_8b4164db7d5b36ca449887eb154fa953.addTo(map_a02bd968ebfb9c9c7943f78406110481);
+        
+    
+            var circle_marker_e432c016aa6d84da9ead64dbeedb5156 = L.circleMarker(
+                [39.886, 116.407],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4C72B0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 1}
+            ).addTo(map_a02bd968ebfb9c9c7943f78406110481);
+        
+    
+        var popup_363d00f22908adb74f086e6d0469ff84 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_2fa3cfa958b3be9d635d1cc0f14af795 = $(`<div id="html_2fa3cfa958b3be9d635d1cc0f14af795" style="width: 100.0%; height: 100.0%;">     <b>Tiantan</b><br>     Chinese name: 天坛<br>     Coordinates: (39.886, 116.407)<br>     Dataset split: <b style="color: #4C72B0">TRAIN</b><br>     Distance from center: 0.018     </div>`)[0];
+                popup_363d00f22908adb74f086e6d0469ff84.setContent(html_2fa3cfa958b3be9d635d1cc0f14af795);
+            
+        
+
+        circle_marker_e432c016aa6d84da9ead64dbeedb5156.bindPopup(popup_363d00f22908adb74f086e6d0469ff84)
+        ;
+
+        
+    
+    
+            circle_marker_e432c016aa6d84da9ead64dbeedb5156.bindTooltip(
+                `<div>
+                     Tiantan (train)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_30dadb19ac9302ced6b392e0d155f861 = L.circleMarker(
+                [39.929, 116.417],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4C72B0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 1}
+            ).addTo(map_a02bd968ebfb9c9c7943f78406110481);
+        
+    
+        var popup_169a4d8c4f6259241ee12caeeac0ef19 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_252f05d2f771843c5ef343e252ebe15d = $(`<div id="html_252f05d2f771843c5ef343e252ebe15d" style="width: 100.0%; height: 100.0%;">     <b>Dongsi</b><br>     Chinese name: 东四<br>     Coordinates: (39.929, 116.417)<br>     Dataset split: <b style="color: #4C72B0">TRAIN</b><br>     Distance from center: 0.027     </div>`)[0];
+                popup_169a4d8c4f6259241ee12caeeac0ef19.setContent(html_252f05d2f771843c5ef343e252ebe15d);
+            
+        
+
+        circle_marker_30dadb19ac9302ced6b392e0d155f861.bindPopup(popup_169a4d8c4f6259241ee12caeeac0ef19)
+        ;
+
+        
+    
+    
+            circle_marker_30dadb19ac9302ced6b392e0d155f861.bindTooltip(
+                `<div>
+                     Dongsi (train)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_55354c8001d08986848b004ae62eb463 = L.circleMarker(
+                [39.878, 116.366],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4C72B0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 1}
+            ).addTo(map_a02bd968ebfb9c9c7943f78406110481);
+        
+    
+        var popup_0e6abf74ff0508ec090a056a049d26cc = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_46855dc60560800d0216a65976fb35dc = $(`<div id="html_46855dc60560800d0216a65976fb35dc" style="width: 100.0%; height: 100.0%;">     <b>Wanshouxigong</b><br>     Chinese name: 万寿西宫<br>     Coordinates: (39.878, 116.366)<br>     Dataset split: <b style="color: #4C72B0">TRAIN</b><br>     Distance from center: 0.049     </div>`)[0];
+                popup_0e6abf74ff0508ec090a056a049d26cc.setContent(html_46855dc60560800d0216a65976fb35dc);
+            
+        
+
+        circle_marker_55354c8001d08986848b004ae62eb463.bindPopup(popup_0e6abf74ff0508ec090a056a049d26cc)
+        ;
+
+        
+    
+    
+            circle_marker_55354c8001d08986848b004ae62eb463.bindTooltip(
+                `<div>
+                     Wanshouxigong (train)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_4b02f690076b5a27052eaa516759867d = L.circleMarker(
+                [39.929, 116.361],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4C72B0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 1}
+            ).addTo(map_a02bd968ebfb9c9c7943f78406110481);
+        
+    
+        var popup_912701be881724cd92108291221de167 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_92abdc1b2a9437323da4cb62cd648f34 = $(`<div id="html_92abdc1b2a9437323da4cb62cd648f34" style="width: 100.0%; height: 100.0%;">     <b>Guanyuan</b><br>     Chinese name: 官园<br>     Coordinates: (39.929, 116.361)<br>     Dataset split: <b style="color: #4C72B0">TRAIN</b><br>     Distance from center: 0.053     </div>`)[0];
+                popup_912701be881724cd92108291221de167.setContent(html_92abdc1b2a9437323da4cb62cd648f34);
+            
+        
+
+        circle_marker_4b02f690076b5a27052eaa516759867d.bindPopup(popup_912701be881724cd92108291221de167)
+        ;
+
+        
+    
+    
+            circle_marker_4b02f690076b5a27052eaa516759867d.bindTooltip(
+                `<div>
+                     Guanyuan (train)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_0ebb31922f6f9b008fcb6b8e940ebc01 = L.circleMarker(
+                [39.937, 116.461],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4C72B0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 1}
+            ).addTo(map_a02bd968ebfb9c9c7943f78406110481);
+        
+    
+        var popup_dcdaee63bd010b2d04f07324646b542b = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_9809ee7290b4e6cfbc55b4c95ee2e262 = $(`<div id="html_9809ee7290b4e6cfbc55b4c95ee2e262" style="width: 100.0%; height: 100.0%;">     <b>Nongzhanguan</b><br>     Chinese name: 农展馆<br>     Coordinates: (39.937, 116.461)<br>     Dataset split: <b style="color: #4C72B0">TRAIN</b><br>     Distance from center: 0.063     </div>`)[0];
+                popup_dcdaee63bd010b2d04f07324646b542b.setContent(html_9809ee7290b4e6cfbc55b4c95ee2e262);
+            
+        
+
+        circle_marker_0ebb31922f6f9b008fcb6b8e940ebc01.bindPopup(popup_dcdaee63bd010b2d04f07324646b542b)
+        ;
+
+        
+    
+    
+            circle_marker_0ebb31922f6f9b008fcb6b8e940ebc01.bindTooltip(
+                `<div>
+                     Nongzhanguan (train)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_fb15ae9673af7e7e9d37926503b185c8 = L.circleMarker(
+                [39.982, 116.395],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4C72B0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 1}
+            ).addTo(map_a02bd968ebfb9c9c7943f78406110481);
+        
+    
+        var popup_311f270a539186d4439281b6e528aa13 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_1f10c2c9cc8465c909832e17c6e0e7aa = $(`<div id="html_1f10c2c9cc8465c909832e17c6e0e7aa" style="width: 100.0%; height: 100.0%;">     <b>Aotizhongxin</b><br>     Chinese name: 奥体中心<br>     Coordinates: (39.982, 116.395)<br>     Dataset split: <b style="color: #4C72B0">TRAIN</b><br>     Distance from center: 0.079     </div>`)[0];
+                popup_311f270a539186d4439281b6e528aa13.setContent(html_1f10c2c9cc8465c909832e17c6e0e7aa);
+            
+        
+
+        circle_marker_fb15ae9673af7e7e9d37926503b185c8.bindPopup(popup_311f270a539186d4439281b6e528aa13)
+        ;
+
+        
+    
+    
+            circle_marker_fb15ae9673af7e7e9d37926503b185c8.bindTooltip(
+                `<div>
+                     Aotizhongxin (train)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_f06f304bd86582826a4f1b6ea6032ae5 = L.circleMarker(
+                [39.987, 116.287],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4C72B0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 1}
+            ).addTo(map_a02bd968ebfb9c9c7943f78406110481);
+        
+    
+        var popup_62784f0acbc4bd26a82cfdd2843f2419 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_8ad92536704d64bc5489243fa68a623e = $(`<div id="html_8ad92536704d64bc5489243fa68a623e" style="width: 100.0%; height: 100.0%;">     <b>Wanliu</b><br>     Chinese name: 万柳<br>     Coordinates: (39.987, 116.287)<br>     Dataset split: <b style="color: #4C72B0">TRAIN</b><br>     Distance from center: 0.146     </div>`)[0];
+                popup_62784f0acbc4bd26a82cfdd2843f2419.setContent(html_8ad92536704d64bc5489243fa68a623e);
+            
+        
+
+        circle_marker_f06f304bd86582826a4f1b6ea6032ae5.bindPopup(popup_62784f0acbc4bd26a82cfdd2843f2419)
+        ;
+
+        
+    
+    
+            circle_marker_f06f304bd86582826a4f1b6ea6032ae5.bindTooltip(
+                `<div>
+                     Wanliu (train)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_e01ff24894b8d79368acd3b255947be2 = L.circleMarker(
+                [39.914, 116.184],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4C72B0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 1}
+            ).addTo(map_a02bd968ebfb9c9c7943f78406110481);
+        
+    
+        var popup_1be884c8056e5413d471558b2df18aa2 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_d43cb608bd7a1462ee41d8c858f282f5 = $(`<div id="html_d43cb608bd7a1462ee41d8c858f282f5" style="width: 100.0%; height: 100.0%;">     <b>Gucheng</b><br>     Chinese name: 古城<br>     Coordinates: (39.914, 116.184)<br>     Dataset split: <b style="color: #4C72B0">TRAIN</b><br>     Distance from center: 0.224     </div>`)[0];
+                popup_1be884c8056e5413d471558b2df18aa2.setContent(html_d43cb608bd7a1462ee41d8c858f282f5);
+            
+        
+
+        circle_marker_e01ff24894b8d79368acd3b255947be2.bindPopup(popup_1be884c8056e5413d471558b2df18aa2)
+        ;
+
+        
+    
+    
+            circle_marker_e01ff24894b8d79368acd3b255947be2.bindTooltip(
+                `<div>
+                     Gucheng (train)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_88238217c51c403dc6365cda072dea1c = L.circleMarker(
+                [40.127, 116.655],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#55A5A5", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 1}
+            ).addTo(map_a02bd968ebfb9c9c7943f78406110481);
+        
+    
+        var popup_8d0a98d89e7556f38a1d4ef6b19079a6 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_5c1a77be9038aa1b931316c752574c77 = $(`<div id="html_5c1a77be9038aa1b931316c752574c77" style="width: 100.0%; height: 100.0%;">     <b>Shunyi</b><br>     Chinese name: 顺义<br>     Coordinates: (40.127, 116.655)<br>     Dataset split: <b style="color: #55A5A5">TEST</b><br>     Distance from center: 0.333     </div>`)[0];
+                popup_8d0a98d89e7556f38a1d4ef6b19079a6.setContent(html_5c1a77be9038aa1b931316c752574c77);
+            
+        
+
+        circle_marker_88238217c51c403dc6365cda072dea1c.bindPopup(popup_8d0a98d89e7556f38a1d4ef6b19079a6)
+        ;
+
+        
+    
+    
+            circle_marker_88238217c51c403dc6365cda072dea1c.bindTooltip(
+                `<div>
+                     Shunyi (test)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_4c794cb311aac98823dbc52a80f350c4 = L.circleMarker(
+                [40.217, 116.231],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF7F50", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 1}
+            ).addTo(map_a02bd968ebfb9c9c7943f78406110481);
+        
+    
+        var popup_7cfe3fdb398c98e3254016b0e9413472 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_a9ca3f8510fadc35074555ce5a368322 = $(`<div id="html_a9ca3f8510fadc35074555ce5a368322" style="width: 100.0%; height: 100.0%;">     <b>Changping</b><br>     Chinese name: 昌平<br>     Coordinates: (40.217, 116.231)<br>     Dataset split: <b style="color: #FF7F50">VAL</b><br>     Distance from center: 0.359     </div>`)[0];
+                popup_7cfe3fdb398c98e3254016b0e9413472.setContent(html_a9ca3f8510fadc35074555ce5a368322);
+            
+        
+
+        circle_marker_4c794cb311aac98823dbc52a80f350c4.bindPopup(popup_7cfe3fdb398c98e3254016b0e9413472)
+        ;
+
+        
+    
+    
+            circle_marker_4c794cb311aac98823dbc52a80f350c4.bindTooltip(
+                `<div>
+                     Changping (val)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_493a8222d7a673e4f8be38720e91fd54 = L.circleMarker(
+                [40.292, 116.22],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF7F50", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 1}
+            ).addTo(map_a02bd968ebfb9c9c7943f78406110481);
+        
+    
+        var popup_168164abed8a7924aa4df40fb55c69b0 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_0a7f2769f76230f3b7aae4a0e79a5b26 = $(`<div id="html_0a7f2769f76230f3b7aae4a0e79a5b26" style="width: 100.0%; height: 100.0%;">     <b>Dingling</b><br>     Chinese name: 定陵<br>     Coordinates: (40.292, 116.220)<br>     Dataset split: <b style="color: #FF7F50">VAL</b><br>     Distance from center: 0.431     </div>`)[0];
+                popup_168164abed8a7924aa4df40fb55c69b0.setContent(html_0a7f2769f76230f3b7aae4a0e79a5b26);
+            
+        
+
+        circle_marker_493a8222d7a673e4f8be38720e91fd54.bindPopup(popup_168164abed8a7924aa4df40fb55c69b0)
+        ;
+
+        
+    
+    
+            circle_marker_493a8222d7a673e4f8be38720e91fd54.bindTooltip(
+                `<div>
+                     Dingling (val)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_d46eb64a42f56ad9203b185045811610 = L.circleMarker(
+                [40.328, 116.628],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#55A5A5", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 1}
+            ).addTo(map_a02bd968ebfb9c9c7943f78406110481);
+        
+    
+        var popup_42176d375ed6c5193569065851233d31 = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_ebdc43f7df6c4fc2197ec18300884d97 = $(`<div id="html_ebdc43f7df6c4fc2197ec18300884d97" style="width: 100.0%; height: 100.0%;">     <b>Huairou</b><br>     Chinese name: 怀柔<br>     Coordinates: (40.328, 116.628)<br>     Dataset split: <b style="color: #55A5A5">TEST</b><br>     Distance from center: 0.478     </div>`)[0];
+                popup_42176d375ed6c5193569065851233d31.setContent(html_ebdc43f7df6c4fc2197ec18300884d97);
+            
+        
+
+        circle_marker_d46eb64a42f56ad9203b185045811610.bindPopup(popup_42176d375ed6c5193569065851233d31)
+        ;
+
+        
+    
+    
+            circle_marker_d46eb64a42f56ad9203b185045811610.bindTooltip(
+                `<div>
+                     Huairou (test)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            tile_layer_8b4164db7d5b36ca449887eb154fa953.addTo(map_a02bd968ebfb9c9c7943f78406110481);
+        
+</script>
+</html>

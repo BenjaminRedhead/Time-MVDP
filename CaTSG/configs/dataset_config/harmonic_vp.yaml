@@ -1,0 +1,83 @@
+# Harmonic Oscillator with Variable Mass, Damping, and Spring Constant Dataset Configuration
+# Physics: Variable parameters m(t), γ(t), k(t)
+
+# Dataset configuration
+dataset:
+  name: harmonic_vp
+  description: Variable parameter harmonic oscillator dataset
+  source:
+    type: synthetic_vp
+
+# Physics parameters for variable harmonic oscillator
+physics_params:
+  # Base parameters
+  m0: 0.5          # Base mass
+  gamma0: 0.1      # Base damping coefficient
+  k0: 1         # Base spring constant
+  
+  # Frequency parameters for time variation
+  omega_m: 0.1     # Frequency for mass variation
+  omega_gamma: 0.2 # Frequency for damping variation
+  lambda_k: 0.05   # Decay rate for spring constant variation
+  
+  # Time parameters
+  t_max: 30.0      # Maximum time
+  seq_len: 96      # Sequence length
+  
+  # Initial condition ranges for original data
+  x0_range: [-2.0, 2.0]    # Initial position range (expanded for diversity)
+  v0_range: [-1.5, 1.5]    # Initial velocity range (expanded for diversity)
+  
+  # Initial condition ranges for counterfactual data (different from original)
+  x0_cf_range: [2.2, 4.0]     # CF initial position range (non-overlapping)
+  v0_cf_range: [-2.5, -1.0]   # CF initial velocity range (non-overlapping)
+
+# Feature embeddings (no categorical features for synthetic data)
+feature_embeddings: {}
+
+# Combination-based split configuration (causal parameters: alpha, beta, eta)
+combination_based:
+  c_var: ['Velocity', 'Position']   # Conditioning variables
+  
+  # Mixed sampling ratios: main_ratio% from own range, remaining% distributed across other ranges
+  sampling_ratios:
+    main: 0.8    # 80% from main range
+    cross: 0.2   # 20% from other ranges (split equally: 10% each from val and test)
+    
+  # Split configurations
+  splits:
+    train:
+      n_samples: 3000
+      alpha: [0.0, 0.2]     # Low mass variation
+      beta: [0.0, 0.01]    # Low damping variation
+      eta: [0.02, 0.08]      # Low spring variation
+      description: "Low parameter variation - stable dynamics"
+    val:
+      n_samples: 1000
+      alpha: [0.3, 0.5]     # Medium mass variation
+      beta: [0.018, 0.022]  # Medium damping variation
+      eta: [0.18, 0.22]     # Medium spring variation
+      description: "Medium parameter variation - transitional dynamics"
+    test:
+      n_samples: 1000
+      alpha: [0.6, 1]     # High mass variation
+      beta: [0.035, 0.04]   # High damping variation
+      eta: [0.42, 0.5]     # High spring variation
+      description: "High parameter variation - challenging dynamics"
+
+# Variables configuration
+variables:
+  x_var: 'Acceleration'  # Target variable
+
+# Preprocessing configuration
+preprocessing:
+  interval: 1
+  seq_len: 96
+  handle_missing: false
+  normalize_target: true
+  normalize_conditions: true
+
+# Output configuration
+output:
+  base_dir: ./dataset
+  dataset_dir: harmonic_vp

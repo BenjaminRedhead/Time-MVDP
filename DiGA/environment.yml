@@ -1,0 +1,28 @@
+name: diga
+channels:
+  - conda-forge
+  - pytorch
+  - nvidia
+dependencies:
+  - python=3.8
+  - pip=20.3
+  - numpy
+  - pandas 
+  - scipy
+  - matplotlib
+  - statsmodels
+  - seaborn
+  - pytorch
+  - pytorch-cuda=12.1
+  - torchvision
+  - wandb
+  - tqdm
+  - lightning
+  - einops
+  - rich
+  - pip:
+    - gymnasium
+    - stable-baselines3
+  # - market_simulation
+  
+  

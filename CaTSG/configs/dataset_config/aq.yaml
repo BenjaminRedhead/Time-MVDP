@@ -1,0 +1,74 @@
+dataset:
+  name: aq
+  description: Multi-station Beijing Air Quality Dataset with Location-based Train/Val/Test Split
+  source:
+    directory: ./data_raw/AQ/
+    file_pattern: PRSA_Data_*_20130301-20170228.csv
+    type: multi_station
+  info:
+    total_samples: 411621
+    total_stations: 12
+    time_range:
+      start: '2013-03-01 00:00:00'
+      end: '2017-02-28 23:00:00'
+    
+# Location-based split configuration
+station_based:
+  train:
+    - 'Dongsi'        # Urban core - very high density
+    - 'Guanyuan'      # Central urban area
+    - 'Tiantan'       # Urban area near temple
+    - 'Wanshouxigong' # Central Beijing
+    - 'Aotizhongxin'  # Olympic area - modern urban
+    - 'Nongzhanguan'  # Agricultural exhibition area
+    - 'Wanliu'        # University area (suburban-like)
+    - 'Gucheng'       # Western urban area
+  val:
+    - 'Changping'     # Suburban district
+    - 'Dingling'      # Rural area near Ming Tombs
+  test:
+    - 'Shunyi'        # Suburban district
+    - 'Huairou'       # Suburban district, mountainous
+  c_var: ['TEMP', 'PRES', 'DEWP', 'WSPM', 'RAIN', 'wd']
+  
+# Time-based split configuration
+year_based:
+  # split_method: 'year_based'
+  split_by: 'year'  # Options: 'year', 'season'
+  train: [2013, 2014]    # First two years for training
+  val: [2015]            # One year for validation  
+  test: [2016, 2017]     # Years for testing (including partial 2017)
+  c_var: ['TEMP', 'PRES', 'DEWP', 'WSPM', 'RAIN', 'wd']
+  
+# Season-based split configuration  
+season_based:
+  # split_method: 'season_based'
+  split_by: 'season'  # Split by seasons instead of years
+  train: ['spring', 'summer']    # Training seasons
+  val: ['autumn']                # Validation seasons
+  test: ['winter']               # Test seasons
+  c_var: ['TEMP', 'PRES', 'DEWP', 'WSPM', 'RAIN', 'wd']
+
+variables:
+  x_var: PM2.5
+  
+# Feature embeddings configuration for categorical variables
+feature_embeddings:
+  wd:
+    categories: ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'] # 0-15
+    vocab_size: 17  # 16 categories + 1 unknown = 17
+    embedding_dim: 8
+
+preprocessing:
+  seq_len: 96
+  interval: 24
+  split_method: 'station_based'  # Options: 'station_based', 'season_based', 'year_based'
+  handle_missing: true
+  missing_method: 'fill_value'   # Options: 'interpolate', 'fill_value', 'forward_fill', 'drop'
+  missing_fill_value: -1         # Value to use after normalization when missing_method is 'fill_value'
+  normalize_target: true
+  normalize_conditions: true
+
+output:
+  base_dir: ./dataset
+  dataset_dir: aq

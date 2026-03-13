@@ -1,0 +1,79 @@
+dataset:
+  name: traffic
+  description: Metro Interstate Traffic Volume Dataset with Multiple Split Strategies
+  path: ./data_raw/Metro_Interstate_Traffic_Volume.csv
+  target: traffic_volume
+  source:
+    file_path: ./data_raw/Metro_Interstate_Traffic_Volume.csv
+    type: traffic
+  info:
+    total_samples: 48204
+    time_range:
+      start: '2012-10-02 09:00:00'
+      end: '2018-09-30 23:00:00'
+    frequency: '1H'     # Hourly data
+    
+# Holiday-based split configuration
+holiday_based:
+  split_by_holiday: true        # First split by holiday (1 -> test, 0 -> train/val)
+  split_weekend_from_non_holiday: true  # Then split non-holiday by weekend
+  c_var: ['temp', 'rain_1h', 'snow_1h', 'clouds_all', 'weather_main']
+
+# Temperature-based split configuration
+temp_based:
+  train_temp_range: [-50, 12]    
+  val_temp_range: [12, 22]      
+  test_temp_range: [22, 50]      
+  c_var: ['rain_1h', 'snow_1h', 'clouds_all', 'weather_main', 'holiday']
+  
+# Time-based split configuration
+year_based:
+  split_by: 'year'
+  train: [2012, 2013, 2014, 2015]  # First 4 years for training
+  val: [2016]                      # 2016 for validation
+  test: [2017, 2018]              # Last 2 years for testing
+  c_var: ['temp', 'rain_1h', 'snow_1h', 'clouds_all', 'weather_main','holiday']
+  
+# Season-based split configuration
+season_based:
+  split_by: 'season'
+  train: ['spring', 'summer']     # Spring/Summer for training
+  val: ['autumn']                 # Autumn for validation
+  test: ['winter']                # Winter for testing
+  c_var: ['temp', 'rain_1h', 'snow_1h', 'clouds_all', 'weather_main','holiday']
+
+
+variables:
+  x_var: traffic_volume
+
+# Feature embeddings configuration for different split methods
+feature_embeddings:
+  weather_main:
+    # Data preprocessing config
+    categories: ['Clear', 'Clouds', 'Rain', 'Drizzle', 'Mist', 'Haze', 'Fog', 'Thunderstorm', 'Snow', 'Squall', 'Smoke']
+    # Model training config
+    vocab_size: 11
+    embedding_dim: 8
+  # holiday removed - will be treated as one-hot numerical feature in preprocessing
+
+preprocessing:
+  seq_len: 96              # 96 time steps (4 days of hourly data)
+  interval: 1
+  split_method: 'temp_based'  # Default split method
+  handle_missing: false    # Dataset has no missing values
+  normalize_target: true
+  normalize_conditions: true
+  add_temporal_features: true
+  
+  # Traffic-specific preprocessing
+  traffic_preprocessing:
+    log_transform: true              # Apply log(x + 1) transformation to reduce skewness
+    outlier_threshold: 3.0           # Remove outliers beyond 3 standard deviations
+    temp_celsius: true               # Convert temperature from Kelvin to Celsius
+    cap_extreme_rain: true           # Cap extreme rain values (>100mm/h)
+    extreme_rain_threshold: 100.0    # Threshold for extreme rain
+    
+output:
+  base_dir: ./dataset
+  dataset_dir: traffic
+  
